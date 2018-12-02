@@ -1,0 +1,31 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.2.2">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net461;Xamarin.iOS10;MonoAndroid81</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Platforms\iOS\" />
+        <Folder Include="Platforms\Android\" />
+    </ItemGroup>
+  
+    <ItemGroup>
+        <Compile Remove="Platforms\**\*.cs" />
+        <None Include="Platforms\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+        <None Remove="Platforms\iOS\**\*.cs" />
+        <Compile Include="Platforms\iOS\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+        <None Remove="Platforms\Android\**\*.cs" />
+        <Compile Include="Platforms\Android\**\*.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Xamarin.Forms" Version="2.5.1.527436" />
+    </ItemGroup>
+
+</Project>

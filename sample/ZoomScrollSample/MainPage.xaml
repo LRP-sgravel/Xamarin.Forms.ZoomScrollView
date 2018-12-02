@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ZoomScrollSample"
+             x:Class="ZoomScrollSample.MainPage">
+
+    <ScrollView x:Name="Scroller"
+                Orientation="Both">
+        <Image Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png"
+               WidthRequest="200"/>
+
+        <ScrollView.GestureRecognizers>
+            <PinchGestureRecognizer PinchUpdated="PinchGestureRecognizer_OnPinchUpdated"></PinchGestureRecognizer>
+        </ScrollView.GestureRecognizers>
+    </ScrollView>
+
+</ContentPage>
