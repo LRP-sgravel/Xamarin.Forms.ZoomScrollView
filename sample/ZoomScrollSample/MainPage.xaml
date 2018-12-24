@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ZoomScrollSample"
+             xmlns:zsv="clr-namespace:Xamarin.Forms.ZoomScrollView;assembly=Xamarin.Forms.ZoomScrollView"
              x:Class="ZoomScrollSample.MainPage">
 
-    <ScrollView x:Name="Scroller"
-                Orientation="Both">
+    <zsv:ZoomScrollView Orientation="Vertical"
+                        MinimumZoomScale="0.25"
+                        MaximumZoomScale="3">
         <Image Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png"
-               WidthRequest="200"/>
-
-        <ScrollView.GestureRecognizers>
-            <PinchGestureRecognizer PinchUpdated="PinchGestureRecognizer_OnPinchUpdated"></PinchGestureRecognizer>
-        </ScrollView.GestureRecognizers>
-    </ScrollView>
+               HeightRequest="800"/>
+    </zsv:ZoomScrollView>
 
 </ContentPage>

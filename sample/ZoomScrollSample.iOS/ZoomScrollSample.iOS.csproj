@@ -153,6 +153,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Xamarin.Forms.ZoomScrollView\Xamarin.Forms.ZoomScrollView.csproj">
+      <Project>{E83489A7-E712-47A4-89D3-24CDAA569ECE}</Project>
+      <Name>Xamarin.Forms.ZoomScrollView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZoomScrollSample\ZoomScrollSample.csproj">
       <Project>{5298104b-cf6f-4241-8a72-67c638a4fdd9}</Project>
       <Name>ZoomScrollSample</Name>

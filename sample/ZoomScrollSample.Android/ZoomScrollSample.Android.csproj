@@ -94,6 +94,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Xamarin.Forms.ZoomScrollView\Xamarin.Forms.ZoomScrollView.csproj">
+      <Project>{e83489a7-e712-47a4-89d3-24cdaa569ece}</Project>
+      <Name>Xamarin.Forms.ZoomScrollView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZoomScrollSample\ZoomScrollSample.csproj">
       <Project>{5298104b-cf6f-4241-8a72-67c638a4fdd9}</Project>
       <Name>ZoomScrollSample</Name>
