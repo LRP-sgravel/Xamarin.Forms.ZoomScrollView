@@ -2,11 +2,12 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Xamarin.Forms.Platform.Android;
 
 namespace ZoomScrollSample.Android
 {
     [Activity(Label = "ZoomScrollSample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

@@ -44,8 +44,8 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.iOS
 
         private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (args.PropertyName == nameof(MinimumZoomScale) ||
-                args.PropertyName == nameof(MaximumZoomScale))
+            if (args.PropertyName == nameof(ZoomScrollView.MinimumZoomScale) ||
+                args.PropertyName == nameof(ZoomScrollView.MaximumZoomScale))
             {
                 UpdateMinMaxScale();
             }

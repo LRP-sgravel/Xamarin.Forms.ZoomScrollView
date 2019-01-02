@@ -1,20 +1,23 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/1.2.2">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net461;Xamarin.iOS10;MonoAndroid81</TargetFrameworks>
+        <TargetFrameworks>Xamarin.iOS10;MonoAndroid9;netstandard2.0;net461</TargetFrameworks>
     </PropertyGroup>
   
     <ItemGroup>
         <Compile Remove="Platforms\**\*.cs" />
         <None Include="Platforms\**\*.cs" />
+        <Compile Remove="Platforms\Android\DebugRenderer.cs" />
     </ItemGroup>
 
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS'))">
         <None Remove="Platforms\iOS\**\*.cs" />
         <Compile Include="Platforms\iOS\**\*.cs" />
     </ItemGroup>
 
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <ItemGroup Condition="$(TargetFramework.StartsWith('MonoAndroid'))">
+        <!-- PackageReference Include="lrp.xamarin.zoomlayout" Version="1.4.0" / -->
+        
         <None Remove="Platforms\Android\**\*.cs" />
         <Compile Include="Platforms\Android\**\*.cs" />
     </ItemGroup>

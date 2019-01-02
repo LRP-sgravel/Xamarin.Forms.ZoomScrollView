@@ -1,14 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:zsv="clr-namespace:Xamarin.Forms.ZoomScrollView;assembly=Xamarin.Forms.ZoomScrollView"
              x:Class="ZoomScrollSample.MainPage">
 
-    <zsv:ZoomScrollView Orientation="Vertical"
+    <zsv:ZoomScrollView Orientation="Both"
                         MinimumZoomScale="0.25"
                         MaximumZoomScale="3">
         <Image Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png"
-               HeightRequest="800"/>
+               WidthRequest="1500" />
+        <!-- Label Text="What's up kiddos?"
+               FontSize="36"/ -->
     </zsv:ZoomScrollView>
 
 </ContentPage>
