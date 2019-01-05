@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/1.2.2">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net461;Xamarin.iOS10;MonoAndroid9</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid9</TargetFrameworks>
         <PackageId>LRP.Xamarin.Forms.ZoomScrollView</PackageId>
         <Title>Xamarin Forms ZoomScrollView</Title>
         <Authors>Sylvain Gravel</Authors>
