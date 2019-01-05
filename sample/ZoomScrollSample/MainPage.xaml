@@ -28,12 +28,11 @@
         <zsv:ZoomScrollView x:Name="ImageScrollView"
                             Grid.Row="1"
                             Grid.ColumnSpan="3"
-                            Orientation="Both"
+                            Orientation="Horizontal"
                             MinimumZoomScale="0.25"
                             MaximumZoomScale="3"
                             IsVisible="True">
-            <Image VerticalOptions="Start"
-                   HorizontalOptions="Start"
+            <Image WidthRequest="1200"
                    Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png" />
         </zsv:ZoomScrollView>
 
@@ -64,8 +63,20 @@
                        FontSize="36" />
                 <Label Text="a single"
                        FontSize="36" />
-                <Label Text="child view"
+                <Label Text="child view."
                        FontSize="36" />
+                <Label Text="Use me"
+                       FontSize="36" />
+                <Label Text="like a"
+                       FontSize="36" />
+                <Label Text="regular"
+                       FontSize="36" />
+                <Label Text="ScrollView"
+                       FontSize="36" />
+                <Label Text="after that!"
+                       FontSize="36" />
+                <Button Text="Scroll to top"
+                        Clicked="OnScrollToTop" />
             </StackLayout>
         </zsv:ZoomScrollView>
     </Grid>

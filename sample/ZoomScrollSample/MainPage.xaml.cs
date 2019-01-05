@@ -30,5 +30,10 @@ namespace ZoomScrollSample
             this.LabelScrollView.IsVisible = false;
             this.StackScrollView.IsVisible = true;
         }
+
+        private void OnScrollToTop(object sender, EventArgs e)
+        {
+            this.StackScrollView.ScrollToAsync(0, 0, true);
+        }
     }
 }

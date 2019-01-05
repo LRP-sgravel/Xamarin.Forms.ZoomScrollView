@@ -9,9 +9,10 @@
 // 
 // ***********************************************************************
 
-using System.ComponentModel;
 using System;
+using System.ComponentModel;
 using Android.Content;
+using Android.Graphics;
 using Android.Views;
 using Com.Otaliastudios.Zoom;
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ using FormsPlatform = Xamarin.Forms.Platform.Android.Platform;
 [assembly: ExportRenderer(typeof(ZoomScrollView), typeof(ZoomScrollViewRenderer))]
 namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
 {
-    public class ZoomScrollViewRenderer : ViewRenderer<ZoomScrollView, ZoomLayout>
+    public class ZoomScrollViewRenderer : ViewRenderer<ZoomScrollView, ZoomLayout>, ZoomEngine.IListener
     {
         private ZoomLayout _zoomLayout;
         private AndroidView _content;
@@ -39,21 +40,44 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
 
         protected override void OnElementChanged(ElementChangedEventArgs<ZoomScrollView> args)
         {
-            base.OnElementChanged(args);
-
-            _zoomLayout = GetOrCreateZoomLayout();
-            _zoomLayout.SetTransformation(ZoomLayout.InterfaceConsts.TransformationNone, (int)(GravityFlags.Top | GravityFlags.Left));
-            _zoomLayout.SetSmallerPolicy(ZoomLayout.InterfaceConsts.SmallerPolicyFromTransformation);
-            SetNativeControl(_zoomLayout);
-
-            _content = CreateScrollViewContent();
-            if(_content != null)
+            if(args.OldElement != null)
             {
-                _zoomLayout.AddView(_content);
+                UnhookScrollToRequestListener(args.OldElement);
             }
 
-            UpdateMinMaxScale();
-            UpdateScrollbars();
+            base.OnElementChanged(args);
+
+            if (args.NewElement != null)
+            {
+                _zoomLayout = GetOrCreateZoomLayout();
+                _zoomLayout.SetHasClickableChildren(true);
+                _zoomLayout.SetTransformation(ZoomLayout.InterfaceConsts.TransformationNone, (int)(GravityFlags.Top | GravityFlags.Left));
+                _zoomLayout.SetSmallerPolicy(ZoomLayout.InterfaceConsts.SmallerPolicyFromTransformation);
+                SetNativeControl(_zoomLayout);
+
+                _content = CreateScrollViewContent();
+                if (_content != null)
+                {
+                    _zoomLayout.AddView(_content);
+                }
+
+                UpdateMinMaxScale();
+                UpdateScrollbars();
+                HookScrollToRequestListener(args.NewElement);
+            }
+        }
+
+        public void OnIdle(ZoomEngine engine)
+        {
+            Element.SendScrollFinished();
+        }
+
+        public void OnUpdate(ZoomEngine engine, Matrix transform)
+        {
+            double panX = Context.FromPixels(engine.PanX);
+            double panY = Context.FromPixels(engine.PanY);
+
+            Element.SetScrolledPosition(panX, panY);
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -65,6 +89,22 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
             {
                 UpdateMinMaxScale();
             }
+        }
+
+        private void OnScrollRequested(object sender, ScrollToRequestedEventArgs args)
+        {
+            float toX = Context.ToPixels(args.ScrollX);
+            float toY = Context.ToPixels(args.ScrollY);
+
+            if (args.Mode == ScrollToMode.Element)
+            {
+                Point itemPosition = Element.GetScrollPositionForElement(args.Element as VisualElement, args.Position);
+
+                toX = Context.ToPixels(itemPosition.X);
+                toY = Context.ToPixels(itemPosition.Y);
+            }
+
+            _zoomLayout.PanTo(toX, toY, args.ShouldAnimate);
         }
 
         private ZoomLayout GetOrCreateZoomLayout()
@@ -117,6 +157,18 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
             }
 
             return null;
+        }
+
+        private void HookScrollToRequestListener(ZoomScrollView view)
+        {
+            _zoomLayout.Engine.AddListener(this);
+            view.ScrollToRequested += OnScrollRequested;
+        }
+
+        private void UnhookScrollToRequestListener(ZoomScrollView view)
+        {
+            _zoomLayout.Engine.RemoveListener(this);
+            view.ScrollToRequested -= OnScrollRequested;
         }
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
