@@ -12,13 +12,13 @@
 using System.ComponentModel;
 using System;
 using Android.Content;
+using Android.Views;
 using Com.Otaliastudios.Zoom;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms.ZoomScrollView;
 using Xamarin.Forms.ZoomScrollView.Platforms.Android;
 using AndroidView = Android.Views.View;
-using FrameLayout = Android.Widget.FrameLayout;
 using FormsPlatform = Xamarin.Forms.Platform.Android.Platform;
 
 [assembly: ExportRenderer(typeof(ZoomScrollView), typeof(ZoomScrollViewRenderer))]
@@ -26,9 +26,9 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
 {
     public class ZoomScrollViewRenderer : ViewRenderer<ZoomScrollView, ZoomLayout>
     {
-        private ZoomLayout _ZoomLayout { get; set; }
+        private ZoomLayout _zoomLayout;
         private AndroidView _content;
-        private FrameLayout _container;
+        private VisualElementTracker _contentTracker;
 
         private ZoomScrollView _ZoomScrollView => Element as ZoomScrollView;
 
@@ -41,20 +41,16 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
         {
             base.OnElementChanged(args);
 
-            _ZoomLayout = GetOrCreateZoomLayout();
-            _ZoomLayout.SetTransformation(ZoomLayout.InterfaceConsts.TransformationNone, 0);
-            _ZoomLayout.RemoveAllViews();
-            SetNativeControl(_ZoomLayout);
+            _zoomLayout = GetOrCreateZoomLayout();
+            _zoomLayout.SetTransformation(ZoomLayout.InterfaceConsts.TransformationNone, (int)(GravityFlags.Top | GravityFlags.Left));
+            _zoomLayout.SetSmallerPolicy(ZoomLayout.InterfaceConsts.SmallerPolicyFromTransformation);
+            SetNativeControl(_zoomLayout);
 
             _content = CreateScrollViewContent();
             if(_content != null)
             {
-                _container = new FrameLayout(Context);
-                _container.AddView(_content);
-                _ZoomLayout.AddView(_container);
-
-                _ZoomScrollView.Content.PropertyChanged += OnContentPropertyChanged;
-			}
+                _zoomLayout.AddView(_content);
+            }
 
             UpdateMinMaxScale();
             UpdateScrollbars();
@@ -71,30 +67,13 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
             }
         }
 
-        private void OnContentPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if ((args.PropertyName == nameof(View.Width) ||
-                 args.PropertyName == nameof(View.Height)) &&
-                _ZoomScrollView.Content.Width > 0 &&
-                _ZoomScrollView.Content.Height > 0)
-            {
-                double density = Resources.DisplayMetrics.Density;
-                double availableWidth = _ZoomScrollView.Content.Width * density;
-                double availableHeight = _ZoomScrollView.Content.Height * density;
-                SizeRequest size = _ZoomScrollView.Content.Measure(availableWidth, availableHeight, MeasureFlags.None);
-                double measuredWidth = size.Request.Width * density;
-                double measuredHeight = size.Request.Height * density;
-                double effectiveWidth = Math.Max(measuredWidth, availableWidth);
-                double effectiveHeight = Math.Max(measuredHeight, availableHeight);
-
-                _content.LayoutParameters = new FrameLayout.LayoutParams((int)measuredWidth, (int)measuredHeight);
-                _container.LayoutParameters = new FrameLayout.LayoutParams((int)effectiveWidth, (int)effectiveHeight);
-            }
-        }
-
         private ZoomLayout GetOrCreateZoomLayout()
         {
-            return GetChildOfType<ZoomLayout>() ?? new ZoomLayout(Context);
+            ZoomLayout result = GetChildOfType<ZoomLayout>() ?? new ZoomLayout(Context);
+
+            result.RemoveAllViews();
+
+            return result;
         }
 
         private TView GetChildOfType<TView>() where TView : AndroidView
@@ -131,35 +110,40 @@ namespace Xamarin.Forms.ZoomScrollView.Platforms.Android
                     renderer.View.RemoveFromParent();
                 }
 
+                _contentTracker = new VisualElementTracker(renderer);
+                _contentTracker.UpdateLayout();
+
                 return renderer.View;
             }
 
             return null;
         }
 
+        protected override void OnLayout(bool changed, int l, int t, int r, int b)
+        {
+            base.OnLayout(changed, l, t, r, b);
+
+            _contentTracker?.UpdateLayout();
+        }
+
         private void UpdateMinMaxScale()
         {
-            if (_ZoomLayout != null && _ZoomScrollView != null)
+            if (_zoomLayout != null && _ZoomScrollView != null)
             {
-                _ZoomLayout.SetMinZoom(_ZoomScrollView.MinimumZoomScale, ZoomLayout.InterfaceConsts.TypeZoom);
-                _ZoomLayout.SetMaxZoom(_ZoomScrollView.MaximumZoomScale, ZoomLayout.InterfaceConsts.TypeZoom);
+                _zoomLayout.SetMinZoom(_ZoomScrollView.MinimumZoomScale, ZoomLayout.InterfaceConsts.TypeZoom);
+                _zoomLayout.SetMaxZoom(_ZoomScrollView.MaximumZoomScale, ZoomLayout.InterfaceConsts.TypeZoom);
             }
         }
 
         private void UpdateScrollbars()
         {
-            if (_ZoomLayout != null && _ZoomScrollView != null)
+            if (_zoomLayout != null && _ZoomScrollView != null)
             {
-                _ZoomLayout.SetHorizontalPanEnabled(_ZoomScrollView.Orientation == ScrollOrientation.Horizontal ||
+                _zoomLayout.SetHorizontalPanEnabled(_ZoomScrollView.Orientation == ScrollOrientation.Horizontal ||
                     _ZoomScrollView.Orientation == ScrollOrientation.Both);
-                _ZoomLayout.SetVerticalPanEnabled(_ZoomScrollView.Orientation == ScrollOrientation.Vertical ||
+                _zoomLayout.SetVerticalPanEnabled(_ZoomScrollView.Orientation == ScrollOrientation.Vertical ||
                     _ZoomScrollView.Orientation == ScrollOrientation.Both);
             }
-        }
-
-        protected override void UpdateBackgroundColor()
-        {
-            _ZoomLayout.SetBackgroundColor(Element.BackgroundColor.ToAndroid(Color.Transparent));
         }
     }
 }
