@@ -2,6 +2,18 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net461;Xamarin.iOS10;MonoAndroid9</TargetFrameworks>
+        <PackageId>LRP.Xamarin.Forms.ZoomScrollView</PackageId>
+        <Title>Xamarin Forms ZoomScrollView</Title>
+        <Authors>Sylvain Gravel</Authors>
+        <Company>Le rond-point</Company>
+        <Product>LRP.Xamarin.Forms.ZoomScrollView</Product>
+        <Description>A Xamarin.Forms 2D ScrollView with pinch zoom</Description>
+        <Copyright>2019 Le rond-point</Copyright>
+        <PackageProjectUrl>https://github.com/LRP-sgravel/Xamarin.Forms.ZoomScrollView</PackageProjectUrl>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/LRP-sgravel/Xamarin.Forms.ZoomScrollView</RepositoryUrl>
+        <PackageTags>Xamarin, Xamarin.Forms, Android, IOS</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
   
     <ItemGroup>
