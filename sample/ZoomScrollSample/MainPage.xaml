@@ -4,13 +4,70 @@
              xmlns:zsv="clr-namespace:Xamarin.Forms.ZoomScrollView;assembly=Xamarin.Forms.ZoomScrollView"
              x:Class="ZoomScrollSample.MainPage">
 
-    <zsv:ZoomScrollView Orientation="Both"
-                        MinimumZoomScale="0.25"
-                        MaximumZoomScale="3">
-        <Image Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png"
-               WidthRequest="1500" />
-        <!-- Label Text="What's up kiddos?"
-               FontSize="36"/ -->
-    </zsv:ZoomScrollView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0"
+                Text="Image"
+                Clicked="OnImageButtonClicked"/>
+        <Button Grid.Row="0" Grid.Column="1"
+                Text="Label"
+                Clicked="OnLabelButtonClicked"/>
+        <Button Grid.Row="0" Grid.Column="2"
+                Text="Stack"
+                Clicked="OnStackButtonClicked"/>
+
+        <zsv:ZoomScrollView x:Name="ImageScrollView"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Orientation="Both"
+                            MinimumZoomScale="0.25"
+                            MaximumZoomScale="3"
+                            IsVisible="True">
+            <Image VerticalOptions="Start"
+                   HorizontalOptions="Start"
+                   Source="https://lerondpoint.net/wp-content/uploads/2015/12/Rondpoint-Logo-Web.png" />
+        </zsv:ZoomScrollView>
+
+        <zsv:ZoomScrollView x:Name="LabelScrollView"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Orientation="Both"
+                            MinimumZoomScale="0.25"
+                            MaximumZoomScale="3"
+                            IsVisible="False">
+            <Label Text="What's up kiddos?"
+                   FontSize="36"/>
+        </zsv:ZoomScrollView>
+
+        <zsv:ZoomScrollView x:Name="StackScrollView"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Orientation="Both"
+                            MinimumZoomScale="0.25"
+                            MaximumZoomScale="3"
+                            IsVisible="False">
+            <StackLayout>
+                <Label Text="Anything"
+                       FontSize="36" />
+                <Label Text="you want"
+                       FontSize="36" />
+                <Label Text="within"
+                       FontSize="36" />
+                <Label Text="a single"
+                       FontSize="36" />
+                <Label Text="child view"
+                       FontSize="36" />
+            </StackLayout>
+        </zsv:ZoomScrollView>
+    </Grid>
 
 </ContentPage>
