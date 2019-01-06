@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/1.2.2">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid9</TargetFrameworks>
+        <TargetFrameworks>netstandard1.1;netstandard2.0;Xamarin.iOS10;MonoAndroid9</TargetFrameworks>
         <PackageId>LRP.Xamarin.Forms.ZoomScrollView</PackageId>
         <Title>Xamarin Forms ZoomScrollView</Title>
         <Authors>Sylvain Gravel</Authors>
@@ -12,8 +12,9 @@
         <PackageProjectUrl>https://github.com/LRP-sgravel/Xamarin.Forms.ZoomScrollView</PackageProjectUrl>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/LRP-sgravel/Xamarin.Forms.ZoomScrollView</RepositoryUrl>
-        <PackageTags>Xamarin, Xamarin.Forms, Android, IOS</PackageTags>
+        <PackageTags>Xamarin, Xamarin.Forms, Android, iOS</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>1.0.1</Version>
     </PropertyGroup>
   
     <ItemGroup>
